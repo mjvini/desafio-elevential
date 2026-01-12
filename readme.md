@@ -50,3 +50,75 @@ Caso não tenha nenhuma em mente, recomendações possíveis são:
 
 # Exemplo básico funcional
 ## [Um exemplo do que é esperado pode ser encontrado aqui](https://desafio-pokedex.elevential.com/)
+
+# Meu Projeto
+Sistema para catalogar pokemon (Pokedex) com backend Spring Boot (Java 17) e frontend Vue.js 3, utilizando MySQL 8.0 em container Docker.
+
+## Pré-requisitos
+### Backend
+Java: OpenJDK 17.0.17 (Temurin)
+Maven: 3.8.7
+Spring Boot: 3.2.0
+
+### Frontend
+Node.js: 20.19.6
+npm: 10.8.2
+Vue.js: 3.5.26
+Vite: 7.3.0
+
+### Docker
+Docker: 29.1.4
+Docker Compose: 1.29.2
+MySQL: 8.0
+
+## Passo a passo para executar o projeto
+### Clonar o projeto:
+```git clone git@github.com:mjvini/desafio-elevential.git```
+
+Depois é só ir para o diretório onde o projeto está.
+
+### Suba o banco de dados com Docker
+#### Execute o Docker Compose (raiz do projeto)
+```docker-compose up -d```
+
+#### Verifique se está rodando
+```docker ps```
+
+#### Deve mostrar: 
+pokedex-mysql na porta 3307
+
+#### Teste a conexão
+```docker exec -it pokedex-mysql mysql -u mjvini -p```
+
+Senha: Euamopokemon1
+#### Comando MySQL: 
+```SHOW DATABASES;```
+
+Obs.: Deve aparecer o banco pokedexdb lá.
+
+### Subir o backend Spring boot
+#### Compile o projeto primeiro
+```mvn clean compile```
+
+#### Execute o projeto
+```mvn spring-boot:run```
+
+#### Acesse a API por:
+http://localhost:8080/api
+
+Observação: Para ver se a API subiu direitinho, abra o navegador e acesse http://localhost:8080/api/status
+
+### Subir o frontend Vue.js
+#### Instale as depedências 
+```npm install```
+
+#### Execute no modo dev
+```npm run dev```
+
+#### Testar a aplicação:
+Acesse: http://localhost:5173
+
+
+## Vídeo da aplicação rodando
+
+#### link: https://youtu.be/gMAOQMotSRY
