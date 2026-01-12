@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: pokedex-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: pokedexdb
+      MYSQL_USER: mjvini
+      MYSQL_PASSWORD: Euamopokemon1
+      MYSQL_ROOT_PASSWORD: Euamopokemon2
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pokedex-api
+    depends_on:
+      - mysql
+    environment:
+      # Banco vazio - Spring vai popular
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/pokedexdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: mjvini
+      SPRING_DATASOURCE_PASSWORD: Euamopokemon1
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update  
+      SPRING_JPA_SHOW_SQL: "false"
+      POKEMON_DATA_LOAD_ON_STARTUP: "true"   
+      SPRING_SQL_INIT_MODE: "never"          
+    ports:
+      - "8080:8080" 
+
+volumes:
+  mysql_data:
